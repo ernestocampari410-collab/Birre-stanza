@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birre Scrause Club</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredericka+the+Great&display=swap');
+
+body {
+margin: 0;
+font-family: 'Fredericka the Great', cursive;
+background-color: #1a1a1a;
+overflow-x: hidden;
+}
+
+/* GIF birre sullo sfondo */
+.beer-bg {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -1;
+overflow: hidden;
+}
+
+.beer-bg img {
+position: absolute;
+width: 50px;
+animation: fall linear infinite;
+}
+
+@keyframes fall {
+0% {transform: translateY(-100px) rotate(0deg);}
+100% {transform: translateY(110vh) rotate(360deg);}
+}
+
+header {
+text-align: center;
+padding: 60px 20px;
+background: linear-gradient(45deg, #ff0000, #ffdd00, #00ff00, #00ffff, #ff00ff);
+background-size: 400% 400%;
+animation: gradientBG 10s ease infinite;
+color: white;
+font-family: 'Press Start 2P', cursive;
+text-shadow: 3px 3px #000;
+}
+
+@keyframes gradientBG {
+0% {background-position:0% 50%;}
+50% {background-position:100% 50%;}
+100% {background-position:0% 50%;}
+}
+
+header h1 {
+font-size: 3em;
+margin: 0;
+animation: blink 1s step-start infinite;
+}
+
+header p {
+font-size: 1.2em;
+margin-top: 10px;
+color: #ff00ff;
+animation: rainbowText 2s infinite;
+}
+
+@keyframes blink {
+0%, 50%, 100% {opacity: 1;}
+25%, 75% {opacity: 0;}
+}
+
+@keyframes rainbowText {
+0% {color: #ff0000;}
+25% {color: #00ff00;}
+50% {color: #0000ff;}
+75% {color: #ffff00;}
+100% {color: #ff0000;}
+}
+
+main {
+padding: 40px 20px;
+background: rgba(0, 0, 0, 0.7);
+max-width: 800px;
+margin: auto;
+border-radius: 20px;
+box-shadow: 0 0 20px #ff00ff;
+}
+
+h2 {
+text-align: center;
+color: #00ffff;
+text-shadow: 2px 2px #ff0000;
+}
+
+.beer-info {
+margin-bottom: 30px;
+line-height: 1.6;
+color: #fff;
+}
+
+form {
+display: flex;
+flex-direction: column;
+gap: 15px;
+margin-top: 20px;
+}
+
+input, textarea, button {
+padding: 10px;
+border-radius: 10px;
+border: none;
+font-size: 1em;
+}
+
+input, textarea {
+width: 100%;
+}
+
+button {
+background: #ff00ff;
+color: white;
+font-weight: bold;
+cursor: pointer;
+transition: 0.3s;
+}
+
+button:hover {
+background: #00ffff;
+color: black;
+}
+
+.forum {
+margin-top: 30px;
+background: rgba(255, 255, 255, 0.1);
+padding: 20px;
+border-radius: 15px;
+max-height: 300px;
+overflow-y: auto;
+}
+
+.message {
+background: rgba(255, 255, 255, 0.2);
+margin-bottom: 10px;
+padding: 10px;
+border-radius: 10px;
+animation: pop 0.5s ease-out;
+}
+
+@keyframes pop {
+0% {transform: scale(0);}
+100% {transform: scale(1);}
+}
+
+footer {
+text-align: center;
+padding: 20px;
+background: rgba(0,0,0,0.8);
+margin-top: 30px;
+color: #fff;
+}
+
+footer a {
+color: #ff00ff;
+margin: 0 10px;
+text-decoration: none;
+transition: 0.3s;
+}
+
+footer a:hover {
+color: #00ffff;
+}
+
+</style>
+</head>
+<body>
+
+<div class="beer-bg" id="beerBg"></div>
+
+<header>
+<h1>Birre Scrause Club</h1>
+<p>Il paradiso delle birre che nessuno osa bere</p>
+</header>
+
+<main>
+<h2>Benvenuti, amanti del gusto discutibile!</h2>
+<div class="beer-info">
+Qui puoi trovare le birre più strane, scrause e incredibilmente epiche. Iscriviti al nostro forum per condividere recensioni, sfide e consigli su come sopravvivere a ogni sorso!
+</div>
+
+<form id="signupForm">
+<input type="text" id="name" placeholder="Il tuo nome epico" required>
+<textarea id="message" rows="3" placeholder="Il tuo messaggio sulla birra" required></textarea>
+<button type="submit">Invia al forum</button>
+</form>
+
+<div class="forum" id="forum">
+<!-- I messaggi appariranno qui -->
+</div>
+</main>
+
+<footer>
+<p>Contattaci: <a href="mailto:birrescrause@club.it">birrescrause@club.it</a></p>
+<p>Seguici sui social: 
+<a href="#">Instagram</a> | 
+<a href="#">Facebook</a> | 
+<a href="#">Twitter</a>
+</p>
+</footer>
+
+<script>
+const form = document.getElementById('signupForm');
+const forum = document.getElementById('forum');
+const beerBg = document.getElementById('beerBg');
+
+// Funzione forum
+form.addEventListener('submit', function(e) {
+e.preventDefault();
+const name = document.getElementById('name').value;
+const message = document.getElementById('message').value;
+
+const msgDiv = document.createElement('div');
+msgDiv.classList.add('message');
+msgDiv.innerHTML = `<strong>${name}:</strong> ${message}`;
+forum.prepend(msgDiv);
+
+form.reset();
+});
+
+// Genera birre sullo sfondo
+const beerImages = [
+'https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif',
+'https://media.giphy.com/media/l0HlQ7LRal0yKZ8y0/giphy.gif'
+];
+
+function createBeer() {
+const img = document.createElement('img');
+img.src = beerImages[Math.floor(Math.random() * beerImages.length)];
+img.style.left = Math.random() * window.innerWidth + 'px';
+img.style.animationDuration = (3 + Math.random() * 5) + 's';
+beerBg.appendChild(img);
+
+setTimeout(() => beerBg.removeChild(img), 8000);
+}
+
+setInterval(createBeer, 500);
+</script>
+
+</body>
+</html>
